@@ -1,0 +1,151 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "loki",
+          "uid": "c8abf040-564f-4d96-bd7b-4ed0c16b06b1"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Universal and flexible dashboard for logging",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "gnetId": 18444,
+  "graphTooltip": 0,
+  "id": 12,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "c8abf040-564f-4d96-bd7b-4ed0c16b06b1"
+      },
+      "description": "Live logs is a like 'tail -f' in a real time",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": true,
+        "showCommonLabels": false,
+        "showLabels": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "c8abf040-564f-4d96-bd7b-4ed0c16b06b1"
+          },
+          "expr": "{swarm_service=\"$swarm_service\"} |~ \"(?i)$searchable_pattern\" ",
+          "hide": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Live logs",
+      "type": "logs"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "Loki",
+    "logging"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "myapp_web2",
+          "value": "myapp_web2"
+        },
+        "datasource": {
+          "type": "loki",
+          "uid": "c8abf040-564f-4d96-bd7b-4ed0c16b06b1"
+        },
+        "definition": "label_values({swarm_service=~\".+\"}, swarm_service)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Service",
+        "multi": false,
+        "name": "swarm_service",
+        "options": [],
+        "query": "label_values({swarm_service=~\".+\"}, swarm_service)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "hide": 0,
+        "label": "Search (case insensitive)",
+        "name": "searchable_pattern",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Logs",
+  "uid": "fRIvzUZMg",
+  "version": 1,
+  "weekStart": ""
+}

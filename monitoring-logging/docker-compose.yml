@@ -1,0 +1,56 @@
+version: "3"
+networks:
+  loki:
+services:
+  loki:
+    image: grafana/loki:2.4.0
+    volumes:
+      - ./loki:/etc/loki
+    ports:
+      - "3100:3100"
+    restart: unless-stopped
+    command: -config.file=/etc/loki/loki-config.yml
+    networks:
+      - loki
+    stop_signal: SIGTERM
+  promtail:
+    image: grafana/promtail:2.4.0
+    volumes:
+      - /var/log:/var/log
+      - ./promtail:/etc/promtail
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/promtail-config.yml
+    networks:
+      - loki
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    networks:
+      - loki
+    stop_signal: SIGTERM
+  grafana:
+    image: grafana/grafana:latest
+    user: "1000"
+    volumes:
+    - ./grafana:/var/lib/grafana
+    ports:
+      - "4000:3000"
+    restart: unless-stopped
+    networks:
+      - loki
+  node-exporter:
+    image: prom/node-exporter
+    restart: unless-stopped
+    ports:
+      - "9100:9100"
+    networks:
+      - loki
+    stop_signal: SIGTERM
+
